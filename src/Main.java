@@ -7,8 +7,10 @@ public class Main {
 
     public static void main(String[] args) {
         Encryption encryption = new Encryption();
-//        Decryption decryption = new Decryption();
-//        Cryptanalyser cryptanalyser = new Cryptanalyser();
+        Decryption decryption = new Decryption();
+        Cryptanalyser cryptanalyser = new Cryptanalyser();
+
+        encryption.encrypt(3);
 
 
 
