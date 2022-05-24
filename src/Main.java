@@ -2,8 +2,8 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 
 public class Main {
-    static Path sourcePath = Path.of("/Users/vladimirgluschivschi/Documents/JavaTasks/source.txt");;
-    static Path destinationPath = Path.of("/Users/vladimirgluschivschi/Documents/JavaTasks/destination.txt");;
+    static Path sourcePath = Path.of(".\\src\\source\\source.txt");
+    static Path destinationPath = Path.of(".\\src\\source\\destination.txt");
 
     public static void main(String[] args) {
         Encryption encryption = new Encryption();
