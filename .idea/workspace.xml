@@ -4,9 +4,8 @@
     <list default="true" id="8ba4b966-f8cb-431a-ab8e-b4106dd40190" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/CryptanalyserJavaRush/Encryption.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CryptanalyserJavaRush/Encryption.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CryptanalyserJavaRush/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CryptanalyserJavaRush/Main.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Encryption.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Encryption.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/source/source.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/source/source.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,5 +75,25 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/Encryption.java</url>
+          <line>32</line>
+          <properties class="Encryption" method="encrypt">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/Encryption.java</url>
+          <line>39</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
