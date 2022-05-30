@@ -1,5 +1,4 @@
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -9,12 +8,22 @@ public class Encryption {
     private ArrayList<Character> sourceTextArray;
     private ArrayList<Character> alphabet;
     private ArrayList<Character> destTextArray;
+    private OutputStream outputStream;
+
+    {
+        try {
+            outputStream = Files.newOutputStream(Main.destinationPath);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 
     public Encryption() {
         sourceTextArray = new ArrayList<>();
         alphabet = new ArrayList<>();
         destTextArray = new ArrayList<>();
+
         try (InputStream inputStream = Files.newInputStream(Main.sourcePath)) {
             int c;
             while ((c = inputStream.read()) != -1) {
@@ -25,12 +34,15 @@ public class Encryption {
             throw new RuntimeException(e);
         }
 
-        System.out.println(sourceTextArray); // Just for testing
+//        System.out.println(sourceTextArray); // Just for testing
+
         alphabetFiller();
+
+
     }
 
 
-    public void encrypt(int key) {
+        public void encrypt(int key) {
         Character currentChar;
         int indexOfCurrentCharInAlphabet;
         int indexOfEncryptedChar;
@@ -38,22 +50,39 @@ public class Encryption {
 
 
         for (int i = 0; i < sourceTextArray.size(); i++) {
-             currentChar = sourceTextArray.get(i);
-             indexOfCurrentCharInAlphabet = getIndexOfSymbolInAlphabet(currentChar);
+            currentChar = sourceTextArray.get(i);
+            indexOfCurrentCharInAlphabet = getIndexOfSymbolInAlphabet(currentChar);
 
-            if(indexOfCurrentCharInAlphabet != -1){
+            if (indexOfCurrentCharInAlphabet != -1) {
                 indexOfEncryptedChar = (indexOfCurrentCharInAlphabet + key) % alphabet.size();
                 encryptedChar = alphabet.get(indexOfEncryptedChar);
-            }
-            else {
+            } else {
                 encryptedChar = currentChar;
             }
-            sourceTextArray.add(i,encryptedChar);
+            sourceTextArray.add(i, encryptedChar);
+            outputWriter(destTextArray, outputStream);
         }
 
     }
 
+    public void decryption(int key) {
 
+    }
+
+
+    private void setSourceTextArrayFiller(){
+
+    }
+
+    private void outputWriter(ArrayList<Character> whatIWantToWrite, OutputStream outputStream){
+        for (int i = 0; i < whatIWantToWrite.size(); i++){
+            try {
+                outputStream.write(destTextArray.get(i));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
 
 
     private void alphabetFiller() {
