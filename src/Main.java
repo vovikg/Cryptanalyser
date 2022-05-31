@@ -3,8 +3,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 
 public class Main {
-//    static Path sourcePath = Path.of("files/source.txt");
-//    static Path destinationPath = Path.of("files/source.txt");
+
 
     public static void main(String[] args) {
         Encryption encryption = new Encryption();
@@ -13,8 +12,7 @@ public class Main {
 
 
 
-//        Decryption decryption = new Decryption();
-//        Cryptanalyser cryptanalyser = new Cryptanalyser();
+
 
 
 
