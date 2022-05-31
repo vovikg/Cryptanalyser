@@ -2,37 +2,34 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class Encryption {
-    private ArrayList<Character> sourceTextArray;
-    private ArrayList<Character> alphabet;
-    private ArrayList<Character> destTextArray;
-    private OutputStream outputStream;
+    private ArrayList<Character> sourceTextArray= new ArrayList<>();
+    private ArrayList<Character> alphabet = new ArrayList<>();
+    private ArrayList<Character> destTextArray = new ArrayList<>();
+    private ArrayList<Character> decryptedTextArray = new ArrayList<>();
 
-    {
-        try {
-            outputStream = Files.newOutputStream(Main.destinationPath);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
 
     public Encryption() {
-        sourceTextArray = new ArrayList<>();
-        alphabet = new ArrayList<>();
-        destTextArray = new ArrayList<>();
+//        sourceTextArray = new ArrayList<>();
+//        alphabet = new ArrayList<>();
+//        destTextArray = new ArrayList<>();
+//        decryptedTextArray = new ArrayList<>();
 
-        try (InputStream inputStream = Files.newInputStream(Main.sourcePath)) {
-            int c;
-            while ((c = inputStream.read()) != -1) {
-                sourceTextArray.add((char) c);
-//                System.out.print((char) c); // for testing
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+
+//        try (BufferedReader inputStream = Files.newBufferedReader(Main.sourcePath)) {
+//            int c;
+//            while ((c = inputStream.read()) != -1) {
+//                sourceTextArray.add((char) c);
+////                System.out.print((char) c); // for testing
+//            }
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
 
 //        System.out.println(sourceTextArray); // Just for testing
 
@@ -41,41 +38,87 @@ public class Encryption {
 
     }
 
+    private void readFromFile(String file, List<Character> list){
+        try (BufferedReader inputStream = Files.newBufferedReader(Path.of(file))) {
+            String line = "";
+            while ((line = inputStream.readLine()) != null){
+                for (char c: line.toCharArray()) {
+                    list.add(c);
+                }
+            }
+//            System.out.println(sourceTextArray.toString());
 
-        public void encrypt(int key) {
+//            int c;
+//            while ((c = inputStream.read()) != -1) {
+//                sourceTextArray.add((char) c);
+////                System.out.print((char) c); // for testing
+//            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    public void encrypt(String sourceFile,String destinationFile, int key) {
+        readFromFile(sourceFile, sourceTextArray);
         Character currentChar;
         int indexOfCurrentCharInAlphabet;
         int indexOfEncryptedChar;
         Character encryptedChar;
-
-
-        for (int i = 0; i < sourceTextArray.size(); i++) {
-            currentChar = sourceTextArray.get(i);
-            indexOfCurrentCharInAlphabet = getIndexOfSymbolInAlphabet(currentChar);
+        for (Character c: sourceTextArray) {
+//            currentChar = sourceTextArray.get(i);
+//            indexOfCurrentCharInAlphabet = getIndexOfSymbolInAlphabet(currentChar);
+            indexOfCurrentCharInAlphabet = alphabet.indexOf(c);
 
             if (indexOfCurrentCharInAlphabet != -1) {
                 indexOfEncryptedChar = (indexOfCurrentCharInAlphabet + key) % alphabet.size();
                 encryptedChar = alphabet.get(indexOfEncryptedChar);
             } else {
-                encryptedChar = currentChar;
+                encryptedChar = c;
             }
-            sourceTextArray.add(i, encryptedChar);
-            outputWriter(destTextArray, outputStream);
+            destTextArray.add(encryptedChar);
+
         }
+        writeToFile(destinationFile, destTextArray);
+    }
+        private void writeToFile(String file, List<Character> list){
+        try(BufferedWriter writer = Files.newBufferedWriter(Path.of(file))){
+            for (Character c: list) {
+                writer.append(c);
+            }
+        } catch (IOException e) {}
+
+        }
+    public void decryption(String sourceFile, String destinationFile, int key) {
+        readFromFile(sourceFile, destTextArray);
+        Character currentChar;
+        int indexOfCurrentCharInAlphabet;
+        int indexOfEncryptedChar;
+        Character encryptedChar;
+        for (Character c: destTextArray) {
+//            currentChar = sourceTextArray.get(i);
+//            indexOfCurrentCharInAlphabet = getIndexOfSymbolInAlphabet(currentChar);
+            indexOfCurrentCharInAlphabet = alphabet.indexOf(c);
+
+            if (indexOfCurrentCharInAlphabet != -1) {
+                indexOfEncryptedChar = (indexOfCurrentCharInAlphabet - key) % alphabet.size();
+                encryptedChar = alphabet.get(indexOfEncryptedChar);
+            } else {
+                encryptedChar = c;
+            }
+            decryptedTextArray.add(encryptedChar);
+
+        }
+        writeToFile(destinationFile, decryptedTextArray);
+    }
+
+
+    private void setSourceTextArrayFiller() {
 
     }
 
-    public void decryption(int key) {
-
-    }
-
-
-    private void setSourceTextArrayFiller(){
-
-    }
-
-    private void outputWriter(ArrayList<Character> whatIWantToWrite, OutputStream outputStream){
-        for (int i = 0; i < whatIWantToWrite.size(); i++){
+    private void outputWriter(ArrayList<Character> whatIWantToWrite, OutputStream outputStream) {
+        for (int i = 0; i < whatIWantToWrite.size(); i++) {
             try {
                 outputStream.write(destTextArray.get(i));
             } catch (IOException e) {
@@ -124,16 +167,16 @@ public class Encryption {
 
     }
 
-    private int getIndexOfSymbolInAlphabet(Character symbol) {
-        int indexInAlphabet = -1;
-        for (int i = 0; i < alphabet.size(); i++) {
-            if (alphabet.get(i).equals(symbol)) {
-                indexInAlphabet = i;
-                break;
-            }
-        }
-        return indexInAlphabet;
-    }
+//    private int getIndexOfSymbolInAlphabet(Character symbol) {
+//        int indexInAlphabet = -1;
+//        for (int i = 0; i < alphabet.size(); i++) {
+//            if (alphabet.get(i).equals(symbol)) {
+//                indexInAlphabet = i;
+//                break;
+//            }
+//        }
+//        return indexInAlphabet;
+//    }
 
 }
 
