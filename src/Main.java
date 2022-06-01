@@ -10,6 +10,10 @@ public class Main {
         encryption.encrypt("files/source.txt", "files/destination.txt",3);
         encryption.decryption("files/destination.txt", "files/decryptedFile.txt", 3);
 
+//        encryption.cryptAnalyzer("files/destination.txt","files/CryptAnalyserDestinationFile.txt");
+
+
+
 
 
 

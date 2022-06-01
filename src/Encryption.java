@@ -2,6 +2,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Encryption {
@@ -9,13 +10,38 @@ public class Encryption {
     private ArrayList<Character> alphabet = new ArrayList<>();
     private ArrayList<Character> destTextArray = new ArrayList<>();
     private ArrayList<Character> decryptedTextArray = new ArrayList<>();
+    private ArrayList<Character> decryptedTempTextArray = new ArrayList<>();
+
+
 
 
     public Encryption() {
 
         alphabetFiller();
 
+    }
 
+    public void encrypt(String sourceFile, String destinationFile, int key) {
+        readFromFile(sourceFile, sourceTextArray);
+        Character currentChar;
+        int indexOfCurrentCharInAlphabet;
+        int indexOfEncryptedChar;
+        Character encryptedChar;
+        for (Character c : sourceTextArray) {
+
+            indexOfCurrentCharInAlphabet = alphabet.indexOf(c);
+
+            if (indexOfCurrentCharInAlphabet != -1) {
+                indexOfEncryptedChar = (indexOfCurrentCharInAlphabet + key) % alphabet.size();
+                System.out.println(indexOfEncryptedChar);
+                encryptedChar = alphabet.get(indexOfEncryptedChar);
+            } else {
+                encryptedChar = c;
+            }
+            destTextArray.add(encryptedChar);
+
+        }
+        writeToFile(destinationFile, destTextArray);
     }
 
     private void readFromFile(String file, List<Character> list) {
@@ -30,29 +56,6 @@ public class Encryption {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-
-    public void encrypt(String sourceFile, String destinationFile, int key) {
-        readFromFile(sourceFile, sourceTextArray);
-        Character currentChar;
-        int indexOfCurrentCharInAlphabet;
-        int indexOfEncryptedChar;
-        Character encryptedChar;
-        for (Character c : sourceTextArray) {
-
-            indexOfCurrentCharInAlphabet = alphabet.indexOf(c);
-
-            if (indexOfCurrentCharInAlphabet != -1) {
-                indexOfEncryptedChar = (indexOfCurrentCharInAlphabet + key) % alphabet.size();
-                encryptedChar = alphabet.get(indexOfEncryptedChar);
-            } else {
-                encryptedChar = c;
-            }
-            destTextArray.add(encryptedChar);
-
-        }
-        writeToFile(destinationFile, destTextArray);
     }
 
     private void writeToFile(String file, List<Character> list) {
@@ -76,7 +79,15 @@ public class Encryption {
             indexOfCurrentCharInAlphabet = alphabet.indexOf(c);
 
             if (indexOfCurrentCharInAlphabet != -1) {
+
                 indexOfEncryptedChar = (indexOfCurrentCharInAlphabet - key) % alphabet.size();
+//                if(indexOfEncryptedChar < alphabet.size()) {
+//
+//                    encryptedChar = alphabet.get(indexOfEncryptedChar);
+//                }
+//                else {
+//
+//                }
                 encryptedChar = alphabet.get(indexOfEncryptedChar);
             } else {
                 encryptedChar = c;
@@ -86,8 +97,6 @@ public class Encryption {
         }
         writeToFile(destinationFile, decryptedTextArray);
     }
-
-
     private void alphabetFiller() {
         alphabet.add('a');
         alphabet.add('b');
@@ -125,6 +134,57 @@ public class Encryption {
         alphabet.add('?');
 
     }
+
+    public void cryptAnalyzer(String encryptedFile, String decryptedFile){
+
+        List<String> temp = Arrays.asList("the", "of", "and");
+        int key = 0;
+        for (int i = 1; i < 64; i++) {
+            int counter = 0;
+            decryption(encryptedFile, decryptedFile, i);
+            try {
+                String text = Files.readString(Path.of(decryptedFile));
+                String[] array = text.split(" ");
+                for (String word: array) {
+                    if(temp.contains(word)){
+                        counter++;
+                    }
+                }
+                if(counter > 3){
+                    key = i;
+                    break;
+                }
+            } catch (IOException e) {
+
+            }
+        }
+
+        System.out.println("key = "+ key);
+
+
+
+
+//        try(BufferedReader bufferedReader = new BufferedReader(new FileReader(encryptedFile))){
+//            String line = "";
+//           while( (line = bufferedReader.readLine()) != null){
+//               decryption();
+//           }
+//        } catch (FileNotFoundException e) {
+//
+//        } catch (IOException e) {
+//
+//        }
+
+
+
+    }
+
+    private boolean validator(){
+
+        return false;
+    }
+
+
 
 }
 
