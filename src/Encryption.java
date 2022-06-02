@@ -33,7 +33,7 @@ public class Encryption {
 
             if (indexOfCurrentCharInAlphabet != -1) {
                 indexOfEncryptedChar = (indexOfCurrentCharInAlphabet + key) % alphabet.size();
-                System.out.println(indexOfEncryptedChar);
+
                 encryptedChar = alphabet.get(indexOfEncryptedChar);
             } else {
                 encryptedChar = c;
@@ -164,25 +164,9 @@ public class Encryption {
 
 
 
-//        try(BufferedReader bufferedReader = new BufferedReader(new FileReader(encryptedFile))){
-//            String line = "";
-//           while( (line = bufferedReader.readLine()) != null){
-//               decryption();
-//           }
-//        } catch (FileNotFoundException e) {
-//
-//        } catch (IOException e) {
-//
-//        }
-
-
-
     }
 
-    private boolean validator(){
 
-        return false;
-    }
 
 
 
